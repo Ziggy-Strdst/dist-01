@@ -313,8 +313,8 @@
                 closeEsc: true,
                 bodyLock: true,
                 hashSettings: {
-                    location: true,
-                    goHash: true
+                    location: false,
+                    goHash: false
                 },
                 on: {
                     beforeOpen: function() {},
@@ -363,7 +363,6 @@
             this.options.init ? this.initPopups() : null;
         }
         initPopups() {
-            this.popupLogging(`Проснулся`);
             this.eventsPopup();
         }
         eventsPopup() {
@@ -379,7 +378,7 @@
                         this._selectorOpen = true;
                         this.open();
                         return;
-                    } else this.popupLogging(`Йой, не заполнен атрибут в ${buttonOpen.classList}`);
+                    } else this.popupLogging(`Ой, не заполнен атрибут в ${buttonOpen.classList}`);
                     return;
                 }
                 const buttonClose = e.target.closest(`[${this.options.attributeCloseButton}]`);
@@ -437,10 +436,7 @@
                         }
                         this.targetOpen.element.querySelector(`[${this.options.youtubePlaceAttribute}]`).appendChild(iframe);
                     }
-                    if (this.options.hashSettings.location) {
-                        this._getHash();
-                        this._setHash();
-                    }
+                    if (this.options.hashSettings.location) this._getHash();
                     this.options.on.beforeOpen(this);
                     document.dispatchEvent(new CustomEvent("beforePopupOpen", {
                         detail: {
@@ -485,7 +481,6 @@
                 !this.bodyLock ? bodyUnlock() : null;
                 this.isOpen = false;
             }
-            this._removeHash();
             if (this._selectorOpen) {
                 this.lastClosed.selector = this.previousOpen.selector;
                 this.lastClosed.element = this.previousOpen.element;
@@ -499,7 +494,7 @@
             setTimeout((() => {
                 this._focusTrap();
             }), 50);
-            this.popupLogging(`Закрыл попап`);
+            this.popupLogging(``);
         }
         _getHash() {
             if (this.options.hashSettings.location) this.hash = this.targetOpen.selector.includes("#") ? this.targetOpen.selector : this.targetOpen.selector.replace(".", "#");
@@ -509,12 +504,6 @@
             const buttons = document.querySelector(`[${this.options.attributeOpenButton} = "${classInHash}"]`) ? document.querySelector(`[${this.options.attributeOpenButton} = "${classInHash}"]`) : document.querySelector(`[${this.options.attributeOpenButton} = "${classInHash.replace(".", "#")}"]`);
             this.youTubeCode = buttons.getAttribute(this.options.youtubeAttribute) ? buttons.getAttribute(this.options.youtubeAttribute) : null;
             if (buttons && classInHash) this.open(classInHash);
-        }
-        _setHash() {
-            history.pushState("", "", this.hash);
-        }
-        _removeHash() {
-            history.pushState("", "", window.location.href.split("#")[0]);
         }
         _focusCatch(e) {
             const focusable = this.targetOpen.element.querySelectorAll(this._focusEl);
@@ -534,7 +523,7 @@
             if (!this.isOpen && this.lastFocusEl) this.lastFocusEl.focus(); else focusable[0].focus();
         }
         popupLogging(message) {
-            this.options.logging ? functions_FLS(`[Попапос]: ${message}`) : null;
+            this.options.logging ? functions_FLS(`[Попап]: ${message}`) : null;
         }
     }
     modules_flsModules.popup = new Popup({});

@@ -3213,6 +3213,9 @@ button.swiper-pagination-bullet {
     background-size: cover!important;
     background-repeat: no-repeat!important
   }
+  .webp .reviews__container {
+    background: 0 0!important
+  }
   .header {
     margin-bottom: 30px
   }

@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<meta name="format-detection" content="telephone=no">
 	<!-- <style>body{opacity: 0;}</style> -->
-	<link rel="stylesheet" href="css/style.min.css?_v=20240517120252">
+	<link rel="stylesheet" href="css/style.min.css?_v=20240517122725">
 	<link rel="shortcut icon" href="favicon.ico">
 	<!-- <meta name="robots" content="noindex, nofollow"> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +27,7 @@
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
 							eiusmod tempor incididunt ut labore et dolore magna aliqua
 						</p>
-						<form action="" class="form">
+						<form action="" class="form" data-popup-message="#success" data-dev>
 							<div class="form__body">
 								<input type="tel" class="form__input tel" placeholder="+7 (9__) ___-__-__" />
 								<button data-da=".popup-form__btn-mobile, 991" class="main__button form__btn" type="submit">
@@ -36,11 +36,30 @@
 							</div>
 							<div class="popup-form__btn-mobile"></div>
 							<div class="form__consent-body popup-form__consent-body">
-								<input class="form__checkbox" type="checkbox" name="consent" value="consent" checked="" />
+								<input class="form__checkbox" type="checkbox" name="consent" value="consent" checked required />
 								<label class="form__consent-label" for="consent">Даю согласие на
 									<a class="form__consent-link" href="">обработку персональных данных</a></label>
 							</div>
 						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- success -->
+
+		<div id="success" aria-hidden="true" class="popup">
+			<div class="popup__wrapper">
+				<div class="popup__content">
+					<button data-close type="button" class="popup__close">
+						<img src="img/popup/icon-close.svg" alt="Кнопка закрыть" />
+					</button>
+					<picture><source srcset="img/popup/1.webp" type="image/webp"><img class="popup__img" src="img/popup/1.png" alt="Фото оператора" /></picture>
+					<div class="popup__form">
+						<h2 class="popup__title h2-title">Заявка успешно отправлена</h2>
+						<p class="popup__text">
+							Ожидайте звонка, скоро наш оператор с Вами свяжется
+						</p>
 					</div>
 				</div>
 			</div>
@@ -220,7 +239,7 @@
 								себя
 							</div>
 							<div class="hero__form">
-								<form action="" class="form">
+								<form action="" class="form" data-popup-message="#success" data-dev>
 									<div class="form__body">
 										<input type="tel" class="form__input tel" placeholder="+7 (9__) ___-__-__" />
 										<button data-da=".form__btn-mobile, 991" class="main__button form__btn" type="submit">
@@ -229,7 +248,7 @@
 									</div>
 									<div class="form__btn-mobile"></div>
 									<div class="form__consent-body">
-										<input class="form__checkbox" type="checkbox" name="consent" value="consent" checked />
+										<input class="form__checkbox" type="checkbox" name="consent" value="consent" checked required />
 										<label class="form__consent-label" for="consent">Даю согласие на
 											<a class="form__consent-link" href="">обработку персональных данных</a></label>
 									</div>
@@ -588,7 +607,7 @@
 								</div>
 								<div class="consult-form__btn-mobile"></div>
 								<div class="form__consent-body">
-									<input class="form__checkbox" type="checkbox" name="consent" value="consent" checked />
+									<input class="form__checkbox" type="checkbox" name="consent" value="consent" checked required />
 									<label class="form__consent-label" for="consent">Даю согласие на
 										<a class="form__consent-link" href="">обработку персональных данных</a></label>
 								</div>
@@ -789,7 +808,7 @@
 							<button class="calc__button" type="submit">Заказать звонок</button>
 						</div>
 						<div class="form__consent-body calc__consent-body">
-							<input class="form__checkbox" type="checkbox" name="consent" value="consent" checked="" />
+							<input class="form__checkbox" type="checkbox" name="consent" value="consent" checked required />
 							<label class="form__consent-label" for="consent">Даю согласие на
 								<a class="form__consent-link" href="">обработку персональных данных</a></label>
 						</div>
@@ -1513,7 +1532,7 @@
 		</footer>
 
 	</div>
-	<script src="js/app.min.js?_v=20240517120252"></script>
+	<script src="js/app.min.js?_v=20240517122725"></script>
 </body>
 
 </html>

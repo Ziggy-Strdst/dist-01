@@ -1,6 +1,6 @@
 (() => {
     "use strict";
-    const modules_flsModules = {};
+    const flsModules = {};
     function isWebp() {
         function testWebP(callback) {
             let webP = new Image;
@@ -244,7 +244,7 @@
         bodyUnlock();
         document.documentElement.classList.remove("menu-open");
     }
-    function functions_FLS(message) {
+    function FLS(message) {
         setTimeout((() => {
             if (window.FLS) console.log(message);
         }), 0);
@@ -523,11 +523,11 @@
             if (!this.isOpen && this.lastFocusEl) this.lastFocusEl.focus(); else focusable[0].focus();
         }
         popupLogging(message) {
-            this.options.logging ? functions_FLS(`[Попап]: ${message}`) : null;
+            this.options.logging ? FLS(`[Попап]: ${message}`) : null;
         }
     }
-    modules_flsModules.popup = new Popup({});
-    let gotoblock_gotoBlock = (targetBlock, noHeader = false, speed = 500, offsetTop = 0) => {
+    flsModules.popup = new Popup({});
+    let gotoBlock = (targetBlock, noHeader = false, speed = 500, offsetTop = 0) => {
         const targetBlockElement = document.querySelector(targetBlock);
         if (targetBlockElement) {
             let headerItem = "";
@@ -562,8 +562,8 @@
                     behavior: "smooth"
                 });
             }
-            functions_FLS(`[gotoBlock]: Юхуу...едем в ${targetBlock}`);
-        } else functions_FLS(`[gotoBlock]: Ей... Такого блока нет на странице: ${targetBlock}`);
+            FLS(`[gotoBlock]: Юхуу...едем в ${targetBlock}`);
+        } else FLS(`[gotoBlock]: Ей... Такого блока нет на странице: ${targetBlock}`);
     };
     let formValidate = {
         getErrors(form) {
@@ -618,11 +618,11 @@
                     const checkbox = checkboxes[index];
                     checkbox.checked = false;
                 }
-                if (modules_flsModules.select) {
+                if (flsModules.select) {
                     let selects = form.querySelectorAll(".select");
                     if (selects.length) for (let index = 0; index < selects.length; index++) {
                         const select = selects[index].querySelector("select");
-                        modules_flsModules.select.selectBuild(select);
+                        flsModules.select.selectBuild(select);
                     }
                 }
             }), 0);
@@ -631,6 +631,71 @@
             return !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,8})+$/.test(formRequiredItem.value);
         }
     };
+    function formSubmit() {
+        const forms = document.forms;
+        if (forms.length) for (const form of forms) {
+            form.addEventListener("submit", (function(e) {
+                const form = e.target;
+                formSubmitAction(form, e);
+            }));
+            form.addEventListener("reset", (function(e) {
+                const form = e.target;
+                formValidate.formClean(form);
+            }));
+        }
+        async function formSubmitAction(form, e) {
+            const error = !form.hasAttribute("data-no-validate") ? formValidate.getErrors(form) : 0;
+            if (error === 0) {
+                const ajax = form.hasAttribute("data-ajax");
+                if (ajax) {
+                    e.preventDefault();
+                    const formAction = form.getAttribute("action") ? form.getAttribute("action").trim() : "#";
+                    const formMethod = form.getAttribute("method") ? form.getAttribute("method").trim() : "GET";
+                    const formData = new FormData(form);
+                    form.classList.add("_sending");
+                    const response = await fetch(formAction, {
+                        method: formMethod,
+                        body: formData
+                    });
+                    if (response.ok) {
+                        let responseResult = await response.json();
+                        form.classList.remove("_sending");
+                        formSent(form, responseResult);
+                    } else {
+                        alert("Ошибка");
+                        form.classList.remove("_sending");
+                    }
+                } else if (form.hasAttribute("data-dev")) {
+                    e.preventDefault();
+                    formSent(form);
+                }
+            } else {
+                e.preventDefault();
+                if (form.querySelector("._form-error") && form.hasAttribute("data-goto-error")) {
+                    const formGoToErrorClass = form.dataset.gotoError ? form.dataset.gotoError : "._form-error";
+                    gotoBlock(formGoToErrorClass, true, 1e3);
+                }
+            }
+        }
+        function formSent(form, responseResult = ``) {
+            document.dispatchEvent(new CustomEvent("formSent", {
+                detail: {
+                    form
+                }
+            }));
+            setTimeout((() => {
+                if (flsModules.popup) {
+                    const popup = form.dataset.popupMessage;
+                    popup ? flsModules.popup.open(popup) : null;
+                }
+            }), 0);
+            formValidate.formClean(form);
+            formLogging(`Форму відправлено!`);
+        }
+        function formLogging(message) {
+            FLS(`[Форми]: ${message}`);
+        }
+    }
     class SelectConstructor {
         constructor(props, data = null) {
             let defaultConfig = {
@@ -988,10 +1053,10 @@
             }));
         }
         setLogging(message) {
-            this.config.logging ? functions_FLS(`[select]: ${message} `) : null;
+            this.config.logging ? FLS(`[select]: ${message} `) : null;
         }
     }
-    modules_flsModules.select = new SelectConstructor({});
+    flsModules.select = new SelectConstructor({});
     function ssr_window_esm_isObject(obj) {
         return obj !== null && typeof obj === "object" && "constructor" in obj && obj.constructor === Object;
     }
@@ -4563,14 +4628,14 @@
                     const noHeader = gotoLink.hasAttribute("data-goto-header") ? true : false;
                     const gotoSpeed = gotoLink.dataset.gotoSpeed ? gotoLink.dataset.gotoSpeed : 500;
                     const offsetTop = gotoLink.dataset.gotoTop ? parseInt(gotoLink.dataset.gotoTop) : 0;
-                    if (modules_flsModules.fullpage) {
+                    if (flsModules.fullpage) {
                         const fullpageSection = document.querySelector(`${gotoLinkSelector}`).closest("[data-fp-section]");
                         const fullpageSectionId = fullpageSection ? +fullpageSection.dataset.fpId : null;
                         if (fullpageSectionId !== null) {
-                            modules_flsModules.fullpage.switchingSection(fullpageSectionId);
+                            flsModules.fullpage.switchingSection(fullpageSectionId);
                             document.documentElement.classList.contains("menu-open") ? menuClose() : null;
                         }
-                    } else gotoblock_gotoBlock(gotoLinkSelector, noHeader, gotoSpeed, offsetTop);
+                    } else gotoBlock(gotoLinkSelector, noHeader, gotoSpeed, offsetTop);
                     e.preventDefault();
                 }
             } else if (e.type === "watcherCallback" && e.detail) {
@@ -4593,7 +4658,7 @@
         if (getHash()) {
             let goToHash;
             if (document.querySelector(`#${getHash()}`)) goToHash = `#${getHash()}`; else if (document.querySelector(`.${getHash()}`)) goToHash = `.${getHash()}`;
-            goToHash ? gotoblock_gotoBlock(goToHash, true, 500, 20) : null;
+            goToHash ? gotoBlock(goToHash, true, 500, 20) : null;
         }
     }
     setTimeout((() => {
@@ -4730,5 +4795,6 @@
     isWebp();
     menuInit();
     spollers();
+    formSubmit();
     pageNavigation();
 })();

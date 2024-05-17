@@ -460,8 +460,7 @@
                             popup: this
                         }
                     }));
-                    this.popupLogging(`Открыл попап`);
-                } else this.popupLogging(`Ей, такого попа нет. Проверьте корректность ввода. `);
+                } else this.popupLogging(`Такого попа нет. Проверьте корректность ввода. `);
             }
         }
         close(selectorValue) {
@@ -523,7 +522,7 @@
             if (!this.isOpen && this.lastFocusEl) this.lastFocusEl.focus(); else focusable[0].focus();
         }
         popupLogging(message) {
-            this.options.logging ? FLS(`[Попап]: ${message}`) : null;
+            this.options.logging ? null : null;
         }
     }
     flsModules.popup = new Popup({});
@@ -562,8 +561,7 @@
                     behavior: "smooth"
                 });
             }
-            FLS(`[gotoBlock]: Юхуу...едем в ${targetBlock}`);
-        } else FLS(`[gotoBlock]: Ей... Такого блока нет на странице: ${targetBlock}`);
+        } else FLS(`[gotoBlock]: Такого блока нет на странице: ${targetBlock}`);
     };
     let formValidate = {
         getErrors(form) {
@@ -690,10 +688,6 @@
                 }
             }), 0);
             formValidate.formClean(form);
-            formLogging(`Форму відправлено!`);
-        }
-        function formLogging(message) {
-            FLS(`[Форми]: ${message}`);
         }
     }
     class SelectConstructor {
@@ -732,10 +726,7 @@
             this._this = this;
             if (this.config.init) {
                 const selectItems = data ? document.querySelectorAll(data) : document.querySelectorAll("select");
-                if (selectItems.length) {
-                    this.selectsInit(selectItems);
-                    this.setLogging(`Проснулся, построил селекты: (${selectItems.length})`);
-                } else this.setLogging("Сплю, нет ни одного select");
+                if (selectItems.length) this.selectsInit(selectItems);
             }
         }
         getSelectClass(className) {

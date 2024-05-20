@@ -178,8 +178,7 @@ body {
   flex: 1 1 auto;
   font-size: 20px;
   font-weight: 700;
-  text-overflow: ellipsis;
-  white-space: nowrap
+  text-overflow: ellipsis
 }
 .select__text {
   flex: 1 1 auto;
@@ -1000,11 +999,16 @@ body::after {
   background: #fff;
   box-shadow: 0 0 14px 0 rgba(102,167,243,.2);
   font-weight: 700;
-  line-height: 120%
+  line-height: 120%;
+  transition: color .2s ease 0s
 }
 .hero__grateful::after {
   content: url(../img/hero/grateful.png);
   height: 32px
+}
+.hero__grateful:hover {
+  cursor: pointer;
+  color: #4a96ef
 }
 .hero__body-right {
   position: relative;
@@ -1082,7 +1086,7 @@ body::after {
   border-radius: 30px 30px 0 30px;
   background: #ff4a4a;
   box-shadow: 20px 20px 30px 0 rgba(255,74,74,.1);
-  max-width: 177px;
+  max-width: 205px;
   left: -45px;
   top: 0
 }
@@ -1106,7 +1110,7 @@ body::after {
   border-radius: 30px 30px 30px 0;
   background: #d085ff;
   box-shadow: 20px 20px 30px 0 rgba(208,133,255,.1);
-  max-width: 158px;
+  max-width: 205px;
   right: 0;
   top: 160px
 }
@@ -3331,7 +3335,7 @@ button.swiper-pagination-bullet {
     letter-spacing: .24px
   }
   .hero-pros-4 {
-    max-width: 119px;
+    max-width: 145px;
     right: 0;
     top: 170px
   }
